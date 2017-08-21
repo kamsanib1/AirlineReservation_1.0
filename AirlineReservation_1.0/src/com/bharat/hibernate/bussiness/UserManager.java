@@ -8,9 +8,7 @@ import org.hibernate.Session;
 
 import com.bharat.hibernate.entity.Users;
 
-public class UserManager {
-	
-	private int maxCount;
+public class UserManager extends Manager{
 	
 	public void addUser(Users user){
 		Session session = SessionManager.getSessionFactory().openSession();
@@ -47,13 +45,15 @@ public class UserManager {
 
 	}
 	
-	public List<Users> getUsersList(int count){
+	public List<Users> getUsersList(){
 		Session session = SessionManager.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Query query = session.createQuery("from Users");
-		query.setMaxResults(count);
+		query.setMaxResults(maxCount);
+		incrementIndex();
 		List<Users> users = (List<Users>) query.list();
+		
 		
 		session.close();
 		
